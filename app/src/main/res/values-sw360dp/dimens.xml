@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="mp.music.album.size" tools:ignore="MissingDefaultResource">240dp</dimen>
+</resources>

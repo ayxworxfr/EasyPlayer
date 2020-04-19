@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="mp.music.seekBar.marginTop" tools:ignore="MissingDefaultResource">32dp</dimen>
+    <dimen name="mp.music.playControls.marginTop" tools:ignore="MissingDefaultResource">24dp</dimen>
+    <dimen name="mp.music.playControls.marginBottom" tools:ignore="MissingDefaultResource">8dp</dimen>
+</resources>
