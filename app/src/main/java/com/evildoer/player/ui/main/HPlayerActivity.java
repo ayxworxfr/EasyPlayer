@@ -1,8 +1,11 @@
 package com.evildoer.player.ui.main;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
@@ -10,8 +13,12 @@ import android.os.PowerManager;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dou361.ijkplayer.bean.VideoijkBean;
@@ -19,13 +26,22 @@ import com.dou361.ijkplayer.listener.OnShowThumbnailListener;
 import com.dou361.ijkplayer.widget.PlayStateParams;
 import com.dou361.ijkplayer.widget.PlayerView;
 import com.evildoer.player.R;
+import com.evildoer.player.model.VideoInfo;
 import com.evildoer.player.utils.MediaUtils;
+import com.evildoer.player.utils.PlayerUtils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class HPlayerActivity extends AppCompatActivity {
+
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     private PlayerView player;
     private Context mContext;
@@ -59,14 +75,17 @@ public class HPlayerActivity extends AppCompatActivity {
             }
         });
 
+        this.verifyPermission(HPlayerActivity.this);
         /**常亮*/
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "liveTAG");
         wakeLock.acquire();
         list = new ArrayList<VideoijkBean>();
+
         //有部分视频加载有问题，这个视频是有声音显示不出图像的，没有解决http://fzkt-biz.oss-cn-hangzhou.aliyuncs.com/vedio/2f58be65f43946c588ce43ea08491515.mp4
         //这里模拟一个本地视频的播放，视频需要将testvideo文件夹的视频放到安卓设备的内置sd卡根目录中
         String url1 = getLocalVideoPath("my_video.mp4");
+//        String url1 = "/sdcard/EasyPlayerVideo/my_video.mp4";
         if (!new File(url1).exists()) {
             url1 = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
         }
@@ -120,12 +139,26 @@ public class HPlayerActivity extends AppCompatActivity {
     /**
      * 播放本地视频
      */
-
     private String getLocalVideoPath(String name) {
+        List allVideoList = new ArrayList<VideoInfo>();
+//        PlayerUtils.getVideoFile(allVideoList, new File("/sdcard"));// 获得视频文件
+        new PlayerUtils().getVideoFile(allVideoList, Environment.getExternalStorageDirectory());// 获得视频文件
         String sdCard = Environment.getExternalStorageDirectory().getPath();
         String uri = sdCard + File.separator + name;
         return uri;
     }
+
+    public void verifyPermission(Context context){
+        int permission = ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    HPlayerActivity.this,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE);
+        }
+    }
+
 
     @Override
     protected void onPause() {
