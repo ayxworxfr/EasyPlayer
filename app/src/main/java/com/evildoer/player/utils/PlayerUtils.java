@@ -1,18 +1,16 @@
 package com.evildoer.player.utils;
 
-import android.os.Environment;
 
-import com.evildoer.player.model.VideoInfo;
+import com.evildoer.player.data.model.Video;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerUtils {
-    public static List<VideoInfo> allVideoList = null;          // 视频信息集合
+    public static List<Video> allVideoList = null;          // 视频信息集合
 
-    public void getVideoFile(final List<VideoInfo> list, File file) {// 获得视频文件
+    public static void getVideoFile(final List<Video> list, File file) {// 获得视频文件
 
         file.listFiles(new FileFilter() {
             @Override
@@ -49,7 +47,7 @@ public class PlayerUtils {
                             || name.equalsIgnoreCase(".ra")
                             || name.equalsIgnoreCase(".ndivx")
                             || name.equalsIgnoreCase(".xvid")) {
-                        VideoInfo vi = new VideoInfo();
+                        Video vi = new Video();
                         vi.setDisplayName(file.getName());
                         vi.setPath(file.getAbsolutePath());
                         list.add(vi);

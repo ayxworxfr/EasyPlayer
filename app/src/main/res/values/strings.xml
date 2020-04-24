@@ -1,3 +1,86 @@
-<resources>
-    <string name="app_name">EasyPlayer</string>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
+    <string name="mp.app.name" tools:ignore="ExtraTranslation">Video Player</string>
+
+    <string name="mp.list.layoutManager.linear" tools:ignore="ExtraTranslation">LinearLayoutManager</string>
+
+    <!-- Common -->
+
+    <string name="mp.cancel" tools:ignore="ExtraTranslation">Cancel</string>
+    <string name="mp.Confirm" tools:ignore="ExtraTranslation">Confirm</string>
+
+    <!-- Activity/Fragment Titles -->
+    <string name="mp.fragment.title.play_list" tools:ignore="ExtraTranslation">Play List</string>
+    <string name="mp.fragment.title.video" tools:ignore="ExtraTranslation">Video</string>
+    <string name="mp.fragment.title.local_files" tools:ignore="ExtraTranslation">Local Files</string>
+    <string name="mp.fragment.title.settings" tools:ignore="ExtraTranslation">Settings</string>
+
+    <string name="mp.activity.title.file_system" tools:ignore="ExtraTranslation">SDCard</string>
+
+    <!-- Play Lists -->
+    <string name="mp.play_list.favorite" tools:ignore="ExtraTranslation">Favorite</string>
+    <string name="mp.play_list.footer.add" tools:ignore="ExtraTranslation">Add play list</string>
+    <string name="mp.play_list.footer.end_summary_formatter" tools:ignore="ExtraTranslation">%d play lists in total</string>
+
+    <string name="mp.play_list.create" tools:ignore="ExtraTranslation">Create play list</string>
+    <string name="mp.play_list.created" tools:ignore="ExtraTranslation">%s created</string>
+    <string name="mp.play_list.edit" tools:ignore="ExtraTranslation">Edit play list</string>
+    <string name="mp.play_list.dialog.hint" tools:ignore="ExtraTranslation">Play list name</string>
+    <string name="mp.play_list.dialog.add_to" tools:ignore="ExtraTranslation">Add to play list</string>
+
+    <plurals name="mp_play_list_items_formatter" tools:ignore="ExtraTranslation">
+        <item quantity="one" tools:ignore="ExtraTranslation">%d song</item>
+        <item quantity="other" tools:ignore="ExtraTranslation">%d songs</item>
+    </plurals>
+
+    <!-- Play Lists - Details -->
+    <string name="mp.play_list.details.empty" tools:ignore="ExtraTranslation">No video here, go add some!</string>
+    <string name="mp.play_list.details.footer.end_summary_formatter" tools:ignore="ExtraTranslation">%d songs in total</string>
+
+    <!-- Main -->
+    <string-array name="mp_main_titles" tools:ignore="ExtraTranslation">
+        <item>@string/mp.fragment.title.play_list</item>
+        <item>@string/mp.fragment.title.video</item>
+        <item>@string/mp.fragment.title.local_files</item>
+        <item>@string/mp.fragment.title.settings</item>
+    </string-array>
+
+    <!-- Video -->
+
+    <string name="mp.video.default_duration" tools:ignore="ExtraTranslation">00:00</string>
+
+    <!-- Local Files -->
+    <string name="mp.local_files.segmented.all" tools:ignore="ExtraTranslation">All</string>
+    <string name="mp.local_files.segmented.folder" tools:ignore="ExtraTranslation">Folder</string>
+
+    <string name="mp.local_files.video_list.empty" tools:ignore="ExtraTranslation">No video found on this device</string>
+    <string name="mp.local_files.video_list.end_summary_formatter" tools:ignore="ExtraTranslation">%d songs in total</string>
+    <string name="mp.local_files.folder_list.end_summary_formatter" tools:ignore="ExtraTranslation">%d folders in total</string>
+    <string name="mp.local_files.folder_list.item_info_formatter" formatted="false" tools:ignore="ExtraTranslation">%d songs | %s</string>
+    <string name="mp.local_files.folder_list.add_folder" tools:ignore="ExtraTranslation">Add Folder</string>
+
+    <string name="mp.local_files.file_system.empty" tools:ignore="ExtraTranslation">No files under this directory</string>
+    <string name="mp.local_files.file_system.menu.done" tools:ignore="ExtraTranslation">Done</string>
+
+    <!-- Local Files - File System -->
+    <plurals name="mp_folders_created_formatter" tools:ignore="ExtraTranslation">
+        <item quantity="one" tools:ignore="ExtraTranslation">%d new folder created</item>
+        <item quantity="other" tools:ignore="ExtraTranslation">%d new folders created</item>
+    </plurals>
+    <plurals name="mp_directory_items_formatter" tools:ignore="ExtraTranslation">
+        <item quantity="one" tools:ignore="ExtraTranslation">%d item</item>
+        <item quantity="other" tools:ignore="ExtraTranslation">%d items</item>
+    </plurals>
+
+    <plurals name="mp_selected_folders_formatter" tools:ignore="ExtraTranslation">
+        <item quantity="one" tools:ignore="ExtraTranslation">%d folder selected</item>
+        <item quantity="other" tools:ignore="ExtraTranslation">%d folders selected</item>
+    </plurals>
+
+    <!-- Menu -->
+    <string name="mp.menu.add_to_play_list" tools:ignore="ExtraTranslation">Add to play list</string>
+    <string name="mp.menu.create_play_list" tools:ignore="ExtraTranslation">Create play list</string>
+    <string name="mp.menu.refresh" tools:ignore="ExtraTranslation">Refresh</string>
+    <string name="mp.menu.play_now" tools:ignore="ExtraTranslation">Play now</string>
+    <string name="mp.menu.rename" tools:ignore="ExtraTranslation">Rename</string>
+    <string name="mp.menu.delete" tools:ignore="ExtraTranslation">Delete</string>
 </resources>

@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @OnClick({R.id.btn_h, R.id.btn_v, R.id.btn_live, R.id.btn_origin})
     public void onClick(View view) {
+
         switch (view.getId()) {
             case R.id.btn_h:
                 /**半屏播放器*/

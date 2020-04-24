@@ -1,4 +1,4 @@
-package com.evildoer.player.ui.main.bean;
+package com.evildoer.player.data.model.bean;
 
 public class LiveBean {
 

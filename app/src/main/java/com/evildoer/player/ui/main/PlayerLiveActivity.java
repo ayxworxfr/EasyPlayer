@@ -17,7 +17,7 @@ import com.dou361.ijkplayer.listener.OnShowThumbnailListener;
 import com.dou361.ijkplayer.widget.PlayStateParams;
 import com.dou361.ijkplayer.widget.PlayerView;
 import com.evildoer.player.R;
-import com.evildoer.player.ui.main.bean.LiveBean;
+import com.evildoer.player.data.model.bean.LiveBean;
 import com.evildoer.player.ui.main.module.ApiServiceUtils;
 import com.evildoer.player.utils.MediaUtils;
 import java.util.List;

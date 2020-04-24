@@ -1,7 +1,7 @@
 package com.evildoer.player.ui.main.module;
 
 import com.alibaba.fastjson.JSON;
-import com.evildoer.player.ui.main.bean.LiveBean;
+import com.evildoer.player.data.model.bean.LiveBean;
 
 import org.json.JSONObject;
 
