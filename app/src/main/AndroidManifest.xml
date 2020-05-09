@@ -34,25 +34,25 @@
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
 <!--        </activity>-->
-<!--        <activity-->
-<!--            android:name=".ui.main.PlayerLiveActivity"-->
-<!--            android:configChanges="orientation|keyboardHidden|screenSize"-->
-<!--            android:theme="@style/AppTheme" />-->
+        <activity
+            android:name=".ui.main.PlayerLiveActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.main.HPlayerActivity"
-            />
-<!--            android:configChanges="orientation|keyboardHidden|screenSize"-->
-<!--            android:screenOrientation="portrait"-->
-<!--            android:theme="@style/AppTheme"-->
-<!--            tools:ignore="LockedOrientationActivity" />-->
-<!--        <activity-->
-<!--            android:name=".ui.main.OriginPlayerActivity"-->
-<!--            android:configChanges="orientation|keyboardHidden|screenSize"-->
-<!--            android:theme="@style/AppTheme" />-->
-<!--        <activity-->
-<!--            android:name=".ui.main.PlayerActivity"-->
-<!--            android:configChanges="orientation|keyboardHidden|screenSize"-->
-<!--            android:theme="@style/AppTheme" />-->
+
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.main.OriginPlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.main.PlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
