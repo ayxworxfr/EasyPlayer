@@ -2,14 +2,19 @@ package com.evildoer.player.ui.main;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.evildoer.player.R;
+
+import java.io.File;
 
 class MediaCursorAdapter extends CursorAdapter {
 
@@ -34,7 +39,7 @@ class MediaCursorAdapter extends CursorAdapter {
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.tvTitle = itemView.findViewById(R.id.tv_title);
             viewHolder.tvTime = itemView.findViewById(R.id.tv_time);
-            viewHolder.tvOrder = itemView.findViewById(R.id.tv_order);
+            viewHolder.ivImage = itemView.findViewById(R.id.iv_image);
             viewHolder.divider = itemView.findViewById(R.id.divider);
             itemView.setTag(viewHolder);
 
@@ -49,6 +54,7 @@ class MediaCursorAdapter extends CursorAdapter {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         int titleIndex = cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME);
         long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
         duration=duration/1000;
         String title = cursor.getString(titleIndex);
         String artist = getDate(duration);
@@ -67,7 +73,9 @@ class MediaCursorAdapter extends CursorAdapter {
             }
 
             viewHolder.tvTime.setText(artist);
-            viewHolder.tvOrder.setText(Integer.toString(position+1));
+            Glide.with(context)
+                    .load(Uri.fromFile(new File(path)))
+                    .into(viewHolder.ivImage);
             viewHolder.divider.setVisibility(View.VISIBLE);
 
             if (position == count - 1) {
@@ -105,7 +113,7 @@ class MediaCursorAdapter extends CursorAdapter {
     public class ViewHolder {
         TextView tvTitle;
         TextView tvTime;
-        TextView tvOrder;
+        ImageView ivImage;
         View divider;
     }
 }
