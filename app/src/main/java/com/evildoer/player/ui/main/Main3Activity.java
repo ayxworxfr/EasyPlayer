@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.evildoer.player.R;
@@ -76,6 +77,7 @@ public class Main3Activity extends AppCompatActivity {
         }
         if (cursor.getCount() != 0) {
             while (cursor.moveToNext()) {
+                String id = cursor.getString(cursor.getColumnIndex("_id"));
                 String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
                 }
             }

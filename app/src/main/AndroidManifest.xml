@@ -40,7 +40,6 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.main.HPlayerActivity"
-
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
