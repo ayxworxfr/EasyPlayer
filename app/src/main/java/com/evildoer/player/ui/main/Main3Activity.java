@@ -39,7 +39,6 @@ public class Main3Activity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             Cursor cursor = mCursorAdapter.getCursor();
             if (cursor != null && cursor.moveToPosition(i)) {
-
                 String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
                 Intent intent = new Intent(Main3Activity.this, HPlayerActivity.class);
                 intent.putExtra("path", path);
@@ -47,6 +46,8 @@ public class Main3Activity extends AppCompatActivity {
             }
         }
     };
+
+
 
 
     @Override
@@ -87,6 +88,8 @@ public class Main3Activity extends AppCompatActivity {
 //            cursor.close();
             return mCursorAdapter;
     }
+
+
 
 
     public void verifyPermission(Context context){

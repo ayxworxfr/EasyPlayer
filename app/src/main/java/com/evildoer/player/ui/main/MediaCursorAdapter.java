@@ -1,5 +1,6 @@
 package com.evildoer.player.ui.main;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.MediaRouteButton;
 import android.content.ContentResolver;
@@ -7,6 +8,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -154,7 +156,10 @@ class MediaCursorAdapter extends CursorAdapter {
                         if (file.exists()) {
                             DeleteVideoDatabase(path,context);
                             file.delete();
-
+                            Activity activity = (Activity) context;
+                            activity.finish();
+                            Intent intent = new Intent(context, Main3Activity.class);
+                            context.startActivity(intent);
                         }
                     }
                 })
