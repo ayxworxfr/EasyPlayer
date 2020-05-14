@@ -2,22 +2,19 @@ package com.evildoer.player.ui.main;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.MediaRouteButton;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
@@ -28,8 +25,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.evildoer.player.R;
-import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.interfaces.OnSelectListener;
 
 import java.io.File;
 
@@ -38,13 +33,16 @@ class MediaCursorAdapter extends CursorAdapter {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private static final int NORMAL_LENGTH = 20;
+    private String[] projection = new String[]{
+            "_id", MediaStore.Video.VideoColumns.DATA, MediaStore.Video.VideoColumns.DURATION,
+            MediaStore.Video.VideoColumns.DISPLAY_NAME, MediaStore.Video.VideoColumns.DATE_ADDED
+    };
 
     private static final String TAG = MediaCursorAdapter.class.getSimpleName();
 
     public MediaCursorAdapter(Context context) {
         super(context, null, 0);
         mContext = context;
-
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -138,7 +136,7 @@ class MediaCursorAdapter extends CursorAdapter {
         popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
-                Toast.makeText(view.getContext(), "close", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "关闭", Toast.LENGTH_SHORT).show();
             }
         });
         //显示菜单，不要少了这一步
@@ -156,10 +154,7 @@ class MediaCursorAdapter extends CursorAdapter {
                         if (file.exists()) {
                             DeleteVideoDatabase(path,context);
                             file.delete();
-                            Activity activity = (Activity) context;
-                            activity.finish();
-                            Intent intent = new Intent(context, Main3Activity.class);
-                            context.startActivity(intent);
+                            Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
@@ -177,15 +172,12 @@ class MediaCursorAdapter extends CursorAdapter {
         final EditText text = new EditText(context);
         new AlertDialog.Builder(context)
                 .setTitle("重命名")
-//                .setIcon(android.R.drawable.ic_dialog_info)
                 .setView(text)
-
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        UpdateVideoDatabase(path,text.getText().toString(),context);
-                        changeFileName(path,text.getText().toString());
-
+                        changeFileName(path,text.getText().toString(),context);
+                        Toast.makeText(context, "重命名成功", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -198,27 +190,32 @@ class MediaCursorAdapter extends CursorAdapter {
                 }).show();
     }
 
-    public void changeFileName(String filePath,String reName){
+    public void changeFileName(String filePath,String reName,Context context){
         File file = new File(filePath);
         //前面路径必须一样才能修改成功
         String path = filePath.substring(0, filePath.lastIndexOf("/")+1)+reName+filePath.substring(filePath.lastIndexOf("."), filePath.length());
         File newFile = new File(path);
         file.renameTo(newFile);
+        UpdateVideoDatabase(filePath,path,context);
     }
 
     public void UpdateVideoDatabase(String oldPath,String newPath,Context context){
         ContentResolver contentResolver = context.getContentResolver();
         ContentValues values = new ContentValues();
         values.put(MediaStore.Audio.Media.DATA,newPath);
-//        contentResolver.update(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values, MediaStore.Audio.Media.DATA + " = '" + oldPath + "'",null);
+        contentResolver.update(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values, MediaStore.Audio.Media.DATA + " = '" + oldPath + "'",null);
+        Cursor cursor = contentResolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, projection, null, null, null);
+        changeCursor(cursor);
+        notifyDataSetChanged();
     }
 
     public void DeleteVideoDatabase(String path,Context context){
         ContentResolver contentResolver = context.getContentResolver();
         contentResolver.delete(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, MediaStore.Audio.Media.DATA + " = '" + path + "'", null);
+        Cursor cursor = contentResolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, projection, null, null, null);
+        changeCursor(cursor);
+        notifyDataSetChanged();
     }
-
-
 
 
 
