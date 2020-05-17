@@ -3,6 +3,10 @@
 
     <string name="mp.list.layoutManager.linear" tools:ignore="ExtraTranslation">LinearLayoutManager</string>
 
+    <!--    Menu-->
+    <string name="menu_video" tools:ignore="MissingTranslation">本地视频</string>
+    <string name="menu_zhibo" tools:ignore="MissingTranslation">直播</string>
+
     <!-- Common -->
 
     <string name="mp.cancel" tools:ignore="ExtraTranslation">Cancel</string>

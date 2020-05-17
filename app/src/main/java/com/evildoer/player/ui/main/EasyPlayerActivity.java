@@ -8,25 +8,17 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.evildoer.player.R;
 
-import java.util.List;
-import java.util.logging.Handler;
-
-public class Main3Activity extends AppCompatActivity {
+public class EasyPlayerActivity extends AppCompatActivity {
 
     private ContentResolver mContentResolver;
     private ListView mPlaylist;
@@ -45,7 +37,7 @@ public class Main3Activity extends AppCompatActivity {
             Cursor cursor = mCursorAdapter.getCursor();
             if (cursor != null && cursor.moveToPosition(i)) {
                 String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-                Intent intent = new Intent(Main3Activity.this, HPlayerActivity.class);
+                Intent intent = new Intent(EasyPlayerActivity.this, HPlayerActivity.class);
                 intent.putExtra("path", path);
                 startActivity(intent);
             }
@@ -56,11 +48,11 @@ public class Main3Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main3);
+        setContentView(R.layout.activity_easy_player);
 
         if (getVideos() != null) {
             mPlaylist = findViewById(R.id.lv_playlist);
-            verifyPermission(Main3Activity.this);
+            verifyPermission(EasyPlayerActivity.this);
             mContentResolver = getContentResolver();
             mPlaylist.setAdapter(getVideos());
         }
@@ -86,7 +78,7 @@ public class Main3Activity extends AppCompatActivity {
                 String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
             }
         }
-        mCursorAdapter = new MediaCursorAdapter(Main3Activity.this);
+        mCursorAdapter = new MediaCursorAdapter(EasyPlayerActivity.this);
         mCursorAdapter.swapCursor(cursor);
         mCursorAdapter.notifyDataSetChanged();
 //            cursor.close();
@@ -99,7 +91,7 @@ public class Main3Activity extends AppCompatActivity {
         if (permission != PackageManager.PERMISSION_GRANTED) {
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
-                    Main3Activity.this,
+                    EasyPlayerActivity.this,
                     PERMISSIONS_STORAGE,
                     REQUEST_EXTERNAL_STORAGE);
         }

@@ -1,0 +1,44 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2028340",
+      "name": "视频",
+      "font_class": "shipin",
+      "unicode": "e693",
+      "unicode_decimal": 59027
+    },
+    {
+      "icon_id": "2803015",
+      "name": "音乐",
+      "font_class": "music",
+      "unicode": "e50c",
+      "unicode_decimal": 58636
+    },
+    {
+      "icon_id": "7002304",
+      "name": "直播 播放 摄像机 观看 面性",
+      "font_class": "zhibobofangshexiangjiguankanmianxing-copy",
+      "unicode": "e517",
+      "unicode_decimal": 58647
+    },
+    {
+      "icon_id": "11112417",
+      "name": "设 置",
+      "font_class": "settings",
+      "unicode": "e501",
+      "unicode_decimal": 58625
+    },
+    {
+      "icon_id": "11177361",
+      "name": "加",
+      "font_class": "jia",
+      "unicode": "e502",
+      "unicode_decimal": 58626
+    }
+  ]
+}
