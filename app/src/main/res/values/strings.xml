@@ -1,4 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
+    <string name="app_name" tools:ignore="MissingTranslation">EasyPlayer</string>
     <string name="mp.app.name" tools:ignore="ExtraTranslation">Video Player</string>
 
     <string name="mp.list.layoutManager.linear" tools:ignore="ExtraTranslation">LinearLayoutManager</string>

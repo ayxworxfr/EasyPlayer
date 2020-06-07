@@ -40,9 +40,12 @@ public class EasyPlayerActivity extends AppCompatActivity {
             Cursor cursor = mCursorAdapter.getCursor();
             if (cursor != null && cursor.moveToPosition(i)) {
                 String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+                String title = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
+                int duration = (int) (cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION)) / 1000);
                 Video video = new Video();
                 video.setPath(path);
-                video.setTitle("title");
+                video.setTitle(title);
+                video.setDuration(duration);
                 Intent intent = new Intent(EasyPlayerActivity.this, HPlayerActivity.class);
 //                intent.putExtra("path", path);
                 Bundle bundle = new Bundle();
