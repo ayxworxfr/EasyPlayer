@@ -56,7 +56,9 @@ public class HPlayerActivity extends AppCompatActivity {
         setContentView(rootView);
 
         Bundle bundle=getIntent().getExtras();
-        String path =bundle.getString("path");
+//        String path =bundle.getString("path");
+        Video video = (Video)bundle.getSerializable("video");
+
         /**虚拟按键的隐藏方法*/
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -86,7 +88,7 @@ public class HPlayerActivity extends AppCompatActivity {
         //有部分视频加载有问题，这个视频是有声音显示不出图像的，没有解决http://fzkt-biz.oss-cn-hangzhou.aliyuncs.com/vedio/2f58be65f43946c588ce43ea08491515.mp4
         //这里模拟一个本地视频的播放，视频需要将testvideo文件夹的视频放到安卓设备的内置sd卡根目录中
 //        String url1 = getLocalVideoPath("my_video.mp4");
-        String url1 =path;
+        String url1 =video.getPath();
 //        url1 = "/storage/emulated/0/Music/萧风 - 贝多芬的悲伤.mp3";
         if (!new File(url1).exists()) {
             url1 = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
@@ -113,7 +115,8 @@ public class HPlayerActivity extends AppCompatActivity {
                 return super.setPlaySource(list);
             }
         }
-                .setTitle("什么")
+                .setTitle(video.getTitle())
+                .setNetWorkTypeTie(false)           // 隐藏视频移动流量是播放提醒
                 .setProcessDurationOrientation(PlayStateParams.PROCESS_PORTRAIT)
                 .setScaleType(PlayStateParams.fillparent)
                 .forbidTouch(false)

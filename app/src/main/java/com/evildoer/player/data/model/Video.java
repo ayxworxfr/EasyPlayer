@@ -7,12 +7,14 @@ import com.litesuits.orm.db.annotation.Table;
 import com.litesuits.orm.db.annotation.Unique;
 import com.litesuits.orm.db.enums.AssignType;
 
+import java.io.Serializable;
+
 /**
  * Created with Android Studio.
  * Desc: Video
  */
 @Table("video")
-public class Video implements Parcelable {
+public class Video implements Parcelable, Serializable {
 
     @PrimaryKey(AssignType.AUTO_INCREMENT)
     private int id;

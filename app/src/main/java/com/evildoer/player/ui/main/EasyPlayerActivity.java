@@ -17,6 +17,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.evildoer.player.R;
+import com.evildoer.player.data.model.Video;
+
+import java.io.Serializable;
 
 public class EasyPlayerActivity extends AppCompatActivity {
 
@@ -37,8 +40,14 @@ public class EasyPlayerActivity extends AppCompatActivity {
             Cursor cursor = mCursorAdapter.getCursor();
             if (cursor != null && cursor.moveToPosition(i)) {
                 String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+                Video video = new Video();
+                video.setPath(path);
+                video.setTitle("title");
                 Intent intent = new Intent(EasyPlayerActivity.this, HPlayerActivity.class);
-                intent.putExtra("path", path);
+//                intent.putExtra("path", path);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("video", (Serializable) video);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         }
