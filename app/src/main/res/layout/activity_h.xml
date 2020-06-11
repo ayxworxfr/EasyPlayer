@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context="com.evildoer.player.ui.main.MainActivity">
 
     <include
@@ -18,9 +19,15 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="12345678"/>-->
+        <ListView
+            android:id="@+id/lv_playlist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1234564798789"/>
+            android:background="#FFFFFF"
+            android:divider="@android:color/transparent"/>
     </LinearLayout>
 </LinearLayout>

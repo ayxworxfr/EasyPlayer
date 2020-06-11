@@ -14,6 +14,7 @@ import com.dou361.ijkplayer.listener.OnShowThumbnailListener;
 import com.dou361.ijkplayer.widget.PlayStateParams;
 import com.dou361.ijkplayer.widget.PlayerView;
 import com.evildoer.player.R;
+import com.evildoer.player.data.model.Video;
 import com.evildoer.player.utils.MediaUtils;
 
 
@@ -29,20 +30,29 @@ public class OriginPlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.mContext = this;
         setContentView(R.layout.activity_h);
+
+        Bundle bundle=getIntent().getExtras();
+//        String path =bundle.getString("path");
+        Video video = (Video)bundle.getSerializable("video");
+
         /**常亮*/
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "liveTAG");
         wakeLock.acquire();
 //        String url = "http://183.6.245.249/v.cctv.com/flash/mp4video6/TMS/2011/01/05/cf752b1c12ce452b3040cab2f90bc265_h264818000nero_aac32-1.mp4";
         String url = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
+        url = video.getPath();
         final RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.color.cl_default);
         requestOptions.error(R.color.cl_error);
         player = new PlayerView(this)
-                .setTitle("什么")
+//                .setTitle("什么")
+                .setTitle(video.getTitle().substring(0, video.getTitle().lastIndexOf('.')))
+                .setNetWorkTypeTie(false)           // 隐藏视频移动流量是播放提醒
                 .setScaleType(PlayStateParams.fitparent)
                 .hideMenu(true)
                 .forbidTouch(false)
+                .setShowSpeed(false)             // 隐藏网速
                 .setForbidHideControlPanl(true)
                 .showThumbnail(new OnShowThumbnailListener() {
                     @Override

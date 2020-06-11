@@ -47,7 +47,7 @@ public class EasyPlayerActivity extends AppCompatActivity {
                 video.setTitle(title);
                 video.setDuration(duration);
                 Intent intent = new Intent(EasyPlayerActivity.this, HPlayerActivity.class);
-//                intent.putExtra("path", path);
+//                Intent intent = new Intent(EasyPlayerActivity.this, OriginPlayerActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("video", (Serializable) video);
                 intent.putExtras(bundle);

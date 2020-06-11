@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -104,6 +105,10 @@ class MediaCursorAdapter extends CursorAdapter {
                 }
             });
 
+            // HPlayerActivity发送的请求隐藏button
+            if(getActivityByContext(mContext) instanceof HPlayerActivity){
+                button.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
@@ -141,6 +146,16 @@ class MediaCursorAdapter extends CursorAdapter {
         });
         //显示菜单，不要少了这一步
         popupMenu.show();
+    }
+
+    public static Activity getActivityByContext(Context context){
+        while(context instanceof ContextWrapper){
+            if(context instanceof Activity){
+                return (Activity) context;
+            }
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+        return null;
     }
 
     private void delete(final Context context, final String path, final Cursor cursor) {

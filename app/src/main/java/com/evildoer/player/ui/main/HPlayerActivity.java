@@ -2,16 +2,23 @@ package com.evildoer.player.ui.main;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.PowerManager;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +36,7 @@ import com.evildoer.player.utils.MediaUtils;
 import com.evildoer.player.utils.PlayerUtils;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +53,11 @@ public class HPlayerActivity extends AppCompatActivity {
     private Context mContext;
     private List<VideoijkBean> list;
     private PowerManager.WakeLock wakeLock;
-    View rootView;
+    private View rootView;
+
+    private ContentResolver mContentResolver;
+    private ListView mPlaylist;
+    private MediaCursorAdapter mCursorAdapter;
 
     @SuppressLint("InvalidWakeLockTag")
     @Override
@@ -115,7 +127,7 @@ public class HPlayerActivity extends AppCompatActivity {
                 return super.setPlaySource(list);
             }
         }
-                .setTitle(video.getTitle())
+                .setTitle(video.getTitle().substring(0, video.getTitle().lastIndexOf('.')))
                 .setNetWorkTypeTie(false)           // 隐藏视频移动流量是播放提醒
                 .setProcessDurationOrientation(PlayStateParams.PROCESS_PORTRAIT)
                 .setScaleType(PlayStateParams.fillparent)
@@ -138,8 +150,62 @@ public class HPlayerActivity extends AppCompatActivity {
                 .setPlaySource(list)
                 .setChargeTie(true,60)
                 .startPlay();
+
+        if (getVideos() != null) {
+            mPlaylist = findViewById(R.id.lv_playlist);
+            verifyPermission(HPlayerActivity.this);
+            mContentResolver = getContentResolver();
+            mPlaylist.setAdapter(getVideos());
+        }
+        mPlaylist.setOnItemClickListener(itemClickListener);
     }
 
+    private ListView.OnItemClickListener itemClickListener = new ListView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            Cursor cursor = mCursorAdapter.getCursor();
+            if (cursor != null && cursor.moveToPosition(i)) {
+                String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+                String title = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
+                int duration = (int) (cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION)) / 1000);
+                Video video = new Video();
+                video.setPath(path);
+                video.setTitle(title);
+                video.setDuration(duration);
+                Intent intent = new Intent(HPlayerActivity.this, HPlayerActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("video", (Serializable) video);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        }
+    };
+
+    private MediaCursorAdapter getVideos() {
+        Uri videoUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+        ContentResolver contentResolver = getContentResolver();
+        String[] projection = new String[]{
+                "_id", MediaStore.Video.VideoColumns.DATA, MediaStore.Video.VideoColumns.DURATION,
+                MediaStore.Video.VideoColumns.DISPLAY_NAME, MediaStore.Video.VideoColumns.DATE_ADDED
+        };
+
+        Cursor cursor = contentResolver.query(videoUri, projection, null, null, null);
+//        cursor.setNotificationUri(contentResolver, videoUri);
+        if (cursor == null) {
+            return null;
+        }
+        if (cursor.getCount() != 0) {
+            while (cursor.moveToNext()) {
+                String id = cursor.getString(cursor.getColumnIndex("_id"));
+                String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+            }
+        }
+        mCursorAdapter = new MediaCursorAdapter(HPlayerActivity.this);
+        mCursorAdapter.swapCursor(cursor);
+        mCursorAdapter.notifyDataSetChanged();
+//            cursor.close();
+        return mCursorAdapter;
+    }
 
     /**
      * 播放本地视频
