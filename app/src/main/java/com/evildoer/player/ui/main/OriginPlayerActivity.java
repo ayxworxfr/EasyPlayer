@@ -45,14 +45,20 @@ public class OriginPlayerActivity extends AppCompatActivity {
         final RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.color.cl_default);
         requestOptions.error(R.color.cl_error);
+        String title = video.getTitle();
+        if(title != null && title.lastIndexOf('.') != -1){
+            title = title.substring(0, title.lastIndexOf('.'));
+        }else if(title == null){
+            title = "video";
+        }
         player = new PlayerView(this)
 //                .setTitle("什么")
-                .setTitle(video.getTitle().substring(0, video.getTitle().lastIndexOf('.')))
-                .setNetWorkTypeTie(false)           // 隐藏视频移动流量是播放提醒
+                .setTitle(title)
+                .setNetWorkTypeTie(true)           // 显示视频移动流量是播放提醒
                 .setScaleType(PlayStateParams.fitparent)
                 .hideMenu(true)
                 .forbidTouch(false)
-                .setShowSpeed(false)             // 隐藏网速
+                .setShowSpeed(true)
                 .setForbidHideControlPanl(true)
                 .showThumbnail(new OnShowThumbnailListener() {
                     @Override

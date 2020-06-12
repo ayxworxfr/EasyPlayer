@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.PowerManager;
 import android.provider.MediaStore;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
@@ -116,6 +117,12 @@ public class HPlayerActivity extends AppCompatActivity {
         list.add(m1);
         list.add(m2);
         //        player = new PlayerView(this, rootView)
+        String title = video.getTitle();
+        if(title != null && title.lastIndexOf('.') != -1){
+            title = title.substring(0, title.lastIndexOf('.'));
+        }else if(title == null){
+            title = "video";
+        }
         player = new PlayerView(this) {
             @Override
             public PlayerView toggleProcessDurationOrientation() {
@@ -128,7 +135,7 @@ public class HPlayerActivity extends AppCompatActivity {
                 return super.setPlaySource(list);
             }
         }
-                .setTitle(video.getTitle().substring(0, video.getTitle().lastIndexOf('.')))
+                .setTitle(title)
                 .setNetWorkTypeTie(false)           // 隐藏视频移动流量是播放提醒
                 .setProcessDurationOrientation(PlayStateParams.PROCESS_PORTRAIT)
                 .setScaleType(PlayStateParams.fillparent)
@@ -206,6 +213,18 @@ public class HPlayerActivity extends AppCompatActivity {
         mCursorAdapter.notifyDataSetChanged();
 //            cursor.close();
         return mCursorAdapter;
+    }
+
+    @Override
+    //安卓重写返回键事件
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            Intent intent = new Intent(this, EasyPlayerActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
+        return true;
     }
 
     /**

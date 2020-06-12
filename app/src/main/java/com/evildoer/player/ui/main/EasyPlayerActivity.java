@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -55,7 +56,6 @@ public class EasyPlayerActivity extends AppCompatActivity {
                 video.setTitle(title);
                 video.setDuration(duration);
                 Intent intent = new Intent(EasyPlayerActivity.this, HPlayerActivity.class);
-//                Intent intent = new Intent(EasyPlayerActivity.this, OriginPlayerActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("video", (Serializable) video);
                 intent.putExtras(bundle);
@@ -169,15 +169,14 @@ public class EasyPlayerActivity extends AppCompatActivity {
     public void jump(String path){
         Video video = new Video();
         video.setPath(path);
-        video.setTitle(path);
-        Intent intent = new Intent(EasyPlayerActivity.this, HPlayerActivity.class);
-//                intent.putExtra("path", path);
+//        video.setPath("http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4");
+        video.setTitle("网络视频");
+        Intent intent = new Intent(EasyPlayerActivity.this, OriginPlayerActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("video", (Serializable) video);
         intent.putExtras(bundle);
         startActivity(intent);
     }
-
 
     public void verifyPermission(Context context) {
         int permission = ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
