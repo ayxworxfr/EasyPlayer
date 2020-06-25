@@ -32,6 +32,7 @@ import java.io.File;
 class MediaCursorAdapter extends CursorAdapter {
 
     private Context mContext;
+    private String currentVideo;
     private LayoutInflater mLayoutInflater;
     private static final int NORMAL_LENGTH = 20;
     private String[] projection = new String[]{

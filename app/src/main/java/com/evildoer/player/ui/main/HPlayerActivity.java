@@ -176,6 +176,7 @@ public class HPlayerActivity extends AppCompatActivity {
                 String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
                 String title = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
                 int duration = (int) (cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION)) / 1000);
+
                 Video video = new Video();
                 video.setPath(path);
                 video.setTitle(title);
