@@ -54,6 +54,7 @@ public class EasyPlayerActivity extends AppCompatActivity {
                 Video video = new Video();
                 video.setPath(path);
                 video.setTitle(title);
+                video.setDisplayName(title);
                 video.setDuration(duration);
                 Intent intent = new Intent(EasyPlayerActivity.this, HPlayerActivity.class);
                 Bundle bundle = new Bundle();
@@ -70,11 +71,13 @@ public class EasyPlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy_player);
 
-        if (getVideos() != null) {
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("name");
+        if (getVideos(name) != null) {
             mPlaylist = findViewById(R.id.lv_playlist);
             verifyPermission(EasyPlayerActivity.this);
             mContentResolver = getContentResolver();
-            mPlaylist.setAdapter(getVideos());
+            mPlaylist.setAdapter(getVideos(name));
         }
         mPlaylist.setOnItemClickListener(itemClickListener);
         final Button button = findViewById(R.id.title_menu);
@@ -86,15 +89,19 @@ public class EasyPlayerActivity extends AppCompatActivity {
         });
     }
 
-    private MediaCursorAdapter getVideos() {
+    private MediaCursorAdapter getVideos(String name) {
         Uri videoUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
         ContentResolver contentResolver = getContentResolver();
         String[] projection = new String[]{
                 "_id", MediaStore.Video.VideoColumns.DATA, MediaStore.Video.VideoColumns.DURATION,
                 MediaStore.Video.VideoColumns.DISPLAY_NAME, MediaStore.Video.VideoColumns.DATE_ADDED
         };
+        String selection = null;
+        if(name != null && !name.isEmpty()){
+            selection = MediaStore.Video.VideoColumns.DISPLAY_NAME +" LIKE"+" '%"+ name +"%'";
+        }
 
-        Cursor cursor = contentResolver.query(videoUri, projection, null, null, null);
+        Cursor cursor = contentResolver.query(videoUri, projection, selection, null, null);
 //        cursor.setNotificationUri(contentResolver, videoUri);
         if (cursor == null) {
             return null;
@@ -123,6 +130,9 @@ public class EasyPlayerActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.add:
                         add(context);
+                        break;
+                    case R.id.filter:
+                        filter(context);
                         break;
                     case R.id.exit:
                         popupMenu.dismiss();
@@ -166,6 +176,28 @@ public class EasyPlayerActivity extends AppCompatActivity {
                 }).show();
     }
 
+    private void filter(final Context context) {
+        final EditText text = new EditText(context);
+        new AlertDialog.Builder(context)
+                .setTitle("视频名称")
+                .setView(text)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        filtVideo(text.getText().toString());
+                        Toast.makeText(context, "正在筛选", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        dialog.dismiss();
+                    }
+                }).show();
+    }
+
     public void jump(String path){
         Video video = new Video();
 //        video.setPath(path);
@@ -176,6 +208,13 @@ public class EasyPlayerActivity extends AppCompatActivity {
         bundle.putSerializable("video", (Serializable) video);
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    public void filtVideo(String name){
+        Intent intent = new Intent(EasyPlayerActivity.this, EasyPlayerActivity.class);
+        intent.putExtra("name", name);
+        startActivity(intent);
+//        finish();
     }
 
     public void verifyPermission(Context context) {

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.PowerManager;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -99,11 +100,9 @@ public class HPlayerActivity extends AppCompatActivity {
         wakeLock.acquire();
         list = new ArrayList<VideoijkBean>();
 
-        //有部分视频加载有问题，这个视频是有声音显示不出图像的，没有解决http://fzkt-biz.oss-cn-hangzhou.aliyuncs.com/vedio/2f58be65f43946c588ce43ea08491515.mp4
         //这里模拟一个本地视频的播放，视频需要将testvideo文件夹的视频放到安卓设备的内置sd卡根目录中
 //        String url1 = getLocalVideoPath("my_video.mp4");
         String url1 =video.getPath();
-//        url1 = "/storage/emulated/0/Music/萧风 - 贝多芬的悲伤.mp3";
         if (!new File(url1).exists()) {
             url1 = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
         }
@@ -159,11 +158,11 @@ public class HPlayerActivity extends AppCompatActivity {
                 .setChargeTie(true,60)
                 .startPlay();
 
-        if (getVideos() != null) {
+        if (getVideos(video.getDisplayName()) != null) {
             mPlaylist = findViewById(R.id.lv_playlist);
             verifyPermission(HPlayerActivity.this);
             mContentResolver = getContentResolver();
-            mPlaylist.setAdapter(getVideos());
+            mPlaylist.setAdapter(getVideos(video.getDisplayName()));
         }
         mPlaylist.setOnItemClickListener(itemClickListener);
     }
@@ -190,15 +189,19 @@ public class HPlayerActivity extends AppCompatActivity {
         }
     };
 
-    private MediaCursorAdapter getVideos() {
+    private MediaCursorAdapter getVideos(String name) {
         Uri videoUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
         ContentResolver contentResolver = getContentResolver();
         String[] projection = new String[]{
                 "_id", MediaStore.Video.VideoColumns.DATA, MediaStore.Video.VideoColumns.DURATION,
                 MediaStore.Video.VideoColumns.DISPLAY_NAME, MediaStore.Video.VideoColumns.DATE_ADDED
         };
+        String selection = null;
+        if(name != null && !name.isEmpty()){
+            selection = MediaStore.Video.VideoColumns.DISPLAY_NAME + " not in("+"\""+ name +"\""+")";
+        }
 
-        Cursor cursor = contentResolver.query(videoUri, projection, null, null, null);
+        Cursor cursor = contentResolver.query(videoUri, projection, selection, null, null);
 //        cursor.setNotificationUri(contentResolver, videoUri);
         if (cursor == null) {
             return null;

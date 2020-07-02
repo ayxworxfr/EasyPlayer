@@ -5,6 +5,19 @@
     android:background="@color/colorTitle"
     android:orientation="horizontal">
 
+
+    <Button
+        android:id="@+id/title_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="+"
+        android:visibility="invisible"
+        android:autoSizeTextType="uniform"
+        android:layout_gravity="center"
+        android:textColor="#fff"
+        android:background="#353b40"
+        android:layout_margin="5dp" />
+
     <TextView
         android:id="@+id/title_text"
         android:layout_width="match_parent"
