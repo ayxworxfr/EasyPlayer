@@ -192,8 +192,9 @@ class MediaCursorAdapter extends CursorAdapter {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        changeFileName(path,text.getText().toString(),context);
-                        Toast.makeText(context, "重命名成功", Toast.LENGTH_SHORT).show();
+                        String filename = text.getText().toString();
+                        filename = filename.trim().replaceAll("\\n", "");
+                        changeFileName(path,filename,context);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -211,8 +212,13 @@ class MediaCursorAdapter extends CursorAdapter {
         //前面路径必须一样才能修改成功
         String path = filePath.substring(0, filePath.lastIndexOf("/")+1)+reName+filePath.substring(filePath.lastIndexOf("."), filePath.length());
         File newFile = new File(path);
-        file.renameTo(newFile);
-        UpdateVideoDatabase(filePath,path,context);
+        boolean result = file.renameTo(newFile);
+        if (result){
+            Toast.makeText(context, "重命名成功", Toast.LENGTH_SHORT).show();
+            UpdateVideoDatabase(filePath,path,context);
+        }else{
+            Toast.makeText(context, "重命名失败, 文件已存在", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void UpdateVideoDatabase(String oldPath,String newPath,Context context){
